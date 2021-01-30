@@ -23,7 +23,7 @@ export async function getStaticProps(context) {
   const user = await response.data[0]
 
   return {
-    props: {user}, // will be passed to the page component as props
+    props: {user, revalidate: 10}, // will be passed to the page component as props
   }
 }
 
@@ -34,8 +34,6 @@ export async function getStaticPaths() {
   );
 
   const users = await response.data.slice(0, 5);
-
-  await new Promise((res) => setTimeout(res, 4000));
 
   const paths = users.map((user) =>{
     return { params: { id: String(user.id) } }
